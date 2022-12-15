@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
 import {
   HEADER_REGISTER,
@@ -8,9 +8,12 @@ import {
   ERROR_REGISTER,
 } from "../constants/Constants";
 
+import { Navigate } from "react-router-dom";
+
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [islogged, setIslogged] = useState(false);
 
   const [error, setError] = useState(false);
 
@@ -31,11 +34,19 @@ export default function Register() {
       const data = await response.json();
       console.log(data);
       setError(false);
+      setIslogged(true);
     } else {
       console.log("error");
       setError(true);
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIslogged(true);
+    }
+  }, []);
 
   return (
     <div
@@ -47,19 +58,23 @@ export default function Register() {
         alignItems: "center",
       }}
     >
-      <Form
-        error={error}
-        setError={setError}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        submitFunction={register}
-        text1={HEADER_REGISTER}
-        text2={SUBMIT_REGISTER}
-        text3={QUESTION_REGISTER}
-        text4={BUTTON_REGISTER}
-        text5={ERROR_REGISTER}
-        route="/login"
-      />
+      {islogged ? (
+        <Navigate to="/" />
+      ) : (
+        <Form
+          error={error}
+          setError={setError}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          submitFunction={register}
+          text1={HEADER_REGISTER}
+          text2={SUBMIT_REGISTER}
+          text3={QUESTION_REGISTER}
+          text4={BUTTON_REGISTER}
+          text5={ERROR_REGISTER}
+          route="/login"
+        />
+      )}
     </div>
   );
 }

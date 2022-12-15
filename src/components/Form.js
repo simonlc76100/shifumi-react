@@ -85,7 +85,7 @@ export default function Form({
             </VStack>
 
             <Divider borderColor="gray.400" />
-            {/* 
+
             {error && (
               <Card bg="#FFEBE9" variant="outline" borderColor="#FFC1C0" w="308px">
                 <CardBody display="flex" justifyContent="space-between" alignItems="center">
@@ -101,7 +101,7 @@ export default function Form({
                   />
                 </CardBody>
               </Card>
-            )} */}
+            )}
 
             <form id="form">
               <Stack spacing="5">

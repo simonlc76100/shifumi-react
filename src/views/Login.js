@@ -1,12 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "../components/Form";
-import {
-  HEADER_LOGIN,
-  SUBMIT_LOGIN,
-  QUESTION_LOGIN,
-  BUTTON_LOGIN,
-  ERROR_LOGIN,
-} from "../constants/Constants";
+import { HEADER_LOGIN, SUBMIT_LOGIN, QUESTION_LOGIN, BUTTON_LOGIN, ERROR_LOGIN } from "../constants/Constants";
 
 import { Navigate } from "react-router-dom";
 
@@ -43,6 +37,13 @@ export default function Login() {
       setError(true);
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIslogged(true);
+    }
+  }, []);
 
   return (
     <div
