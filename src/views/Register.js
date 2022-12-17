@@ -1,45 +1,65 @@
 import { useState, useEffect } from "react";
 import Form from "../components/Form";
-import {
-  HEADER_REGISTER,
-  SUBMIT_REGISTER,
-  QUESTION_REGISTER,
-  BUTTON_REGISTER,
-  ERROR_REGISTER,
-} from "../constants/Constants";
+import { CONSTANTS_REGISTER } from "../constants/Constants";
 
 import { Navigate } from "react-router-dom";
 
-export default function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Register({ formData, setFormData }) {
   const [islogged, setIslogged] = useState(false);
-
+  const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState(false);
 
   async function register(e) {
     e.preventDefault();
-    const response = await fetch("http://fauques.freeboxos.fr:3000/register", {
+    const res_reg = await fetch("http://fauques.freeboxos.fr:3000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
-        password,
+        username: formData.username,
+        password: formData.password,
       }),
     });
 
-    if (response.status === 201) {
-      const data = await response.json();
-      console.log(data);
-      setError(false);
-      setIslogged(true);
+    if (res_reg.status === 201) {
+      const data_reg = await res_reg.json();
+      console.log(data_reg);
+      setIsRegistered(true);
     } else {
       console.log("error");
       setError(true);
     }
   }
+
+  useEffect(() => {
+    if (isRegistered && formData.username && formData.password) {
+      async function login() {
+        const res_log = await fetch("http://fauques.freeboxos.fr:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            password: formData.password,
+          }),
+        });
+
+        if (res_log.status === 200) {
+          const data_log = await res_log.json();
+          console.log(data_log);
+          localStorage.setItem("token", data_log.token);
+          localStorage.setItem("username", formData.username);
+          setIslogged(true);
+        } else {
+          console.log("error");
+          setError(true);
+        }
+      }
+      login();
+    }
+  }, [isRegistered, formData.username, formData.password]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,14 +84,10 @@ export default function Register() {
         <Form
           error={error}
           setError={setError}
-          setUsername={setUsername}
-          setPassword={setPassword}
+          formData={formData}
+          setFormData={setFormData}
           submitFunction={register}
-          text1={HEADER_REGISTER}
-          text2={SUBMIT_REGISTER}
-          text3={QUESTION_REGISTER}
-          text4={BUTTON_REGISTER}
-          text5={ERROR_REGISTER}
+          CONSTANTS={CONSTANTS_REGISTER}
           route="/login"
         />
       )}

@@ -1,5 +1,9 @@
 import MatchesList from "../components/MatchesList";
 
 export default function Matches() {
-  return <MatchesList />;
+  return (
+    <div>
+      <MatchesList />
+    </div>
+  );
 }
