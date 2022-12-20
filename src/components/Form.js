@@ -46,9 +46,11 @@ export default function Form({
       display="flex"
       justifyContent="center"
       alignItems="center"
-      backgroundColor="#F4F3FD"
+      backgroundColor="#F1F3F5"
       borderRadius="25px"
-      border="2px solid white"
+      variant="outline"
+      border="1px solid #D8DEE4"
+      boxShadow="0px 0px 10px 0px rgba(0,0,0,0.2)"
     >
       <Image
         height="630px"
@@ -67,10 +69,10 @@ export default function Form({
         justifyContent="center"
         alignItems="center"
       >
-        <Box bg="#F4F3FD" w="308px">
+        <Box w="308px">
           <Stack spacing="10">
             <VStack>
-              <Heading as="h1" fontWeight="600" fontSize="31px" letterSpacing="-0.5px">
+              <Heading as="h1" fontWeight="500" fontSize="34px" letterSpacing="0.5px">
                 Shifumi-React
               </Heading>
             </VStack>
@@ -84,7 +86,12 @@ export default function Form({
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  <Text color="red.500" fontSize="sm" fontWeight="600">
+                  <Text
+                    color="red.500"
+                    fontSize="15px"
+                    fontWeight="500"
+                    letterSpacing="0.5px"
+                  >
                     {CONSTANTS[4]}
                   </Text>
                   <CloseButton
@@ -109,13 +116,17 @@ export default function Form({
                     />
                     <Input
                       required
+                      onInvalid={(e) => {
+                        e.target.setCustomValidity("Please enter a username");
+                      }}
                       backgroundColor="white"
-                      fontSize="14px"
-                      placeholder="Nom d'utilisateur"
+                      fontSize="15px"
+                      placeholder="username"
                       type="text"
                       height="55px"
                       borderRadius="10px"
                       onChange={(e) => {
+                        e.target.setCustomValidity("");
                         setFormData({
                           ...formData,
                           username: e.target.value,
@@ -133,13 +144,17 @@ export default function Form({
                     />
                     <Input
                       required
+                      onInvalid={(e) => {
+                        e.target.setCustomValidity("Please enter a password");
+                      }}
                       backgroundColor="white"
-                      fontSize="14px"
-                      placeholder="Mot de passe"
+                      fontSize="15px"
+                      placeholder="password"
                       type="password"
                       height="55px"
                       borderRadius="10px"
                       onChange={(e) => {
+                        e.target.setCustomValidity("");
                         setFormData({
                           ...formData,
                           password: e.target.value,
@@ -152,9 +167,9 @@ export default function Form({
               <Button
                 marginTop={10}
                 width="308px"
-                fontSize="15px"
+                fontSize="16px"
                 fontWeight="600"
-                letterSpacing={1}
+                letterSpacing="0.5px"
                 type="submit"
                 bg="#2da44e"
                 color="white"
@@ -167,9 +182,15 @@ export default function Form({
               </Button>
             </form>
           </Stack>
-          <Center fontSize="sm" spacing="1" marginTop="20px">
+          <Center fontSize="15px" marginTop="20px">
             <Text>{CONSTANTS[2]}</Text>
-            <Link as={ReactRouterLink} to={route} color="#0969da" marginLeft="4px">
+            <Link
+              as={ReactRouterLink}
+              to={route}
+              color="#0969da"
+              marginLeft="4px"
+              _hover={{ color: "#0C4A94" }}
+            >
               <button>{CONSTANTS[3]}</button>
             </Link>
           </Center>

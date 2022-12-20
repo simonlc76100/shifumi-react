@@ -18,7 +18,6 @@
 .env.test.local
 .env.production.local
 req.http
-NavBar.js
 
 npm-debug.log*
 yarn-debug.log*

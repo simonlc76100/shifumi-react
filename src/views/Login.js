@@ -21,20 +21,23 @@ export default function Login({ formData, setFormData }) {
         password: formData.password,
       }),
     });
-    if (response.status === 200) {
-      const data = await response.json();
-      console.log(data);
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", formData.username);
+    switch (response.status) {
+      case 200:
+        const data = await response.json();
+        console.log(data);
 
-      setIsLogged(true);
-    } else {
-      console.log("error");
-      setError(true);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("username", formData.username);
+
+        setIsLogged(true);
+        break;
+      default:
+        console.log("error");
+        setError(true);
+        break;
     }
   }
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {

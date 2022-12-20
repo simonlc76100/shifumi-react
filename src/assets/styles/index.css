@@ -1,25 +1,7 @@
-@font-face {
-  font-family: "Light";
-  src: local("Ubuntu-Light"), url("../fonts/Ubuntu-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Regular";
-  src: local("Ubuntu-Regular"), url("../fonts/Ubuntu-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Medium";
-  src: local("Ubuntu-Medium"), url("../fonts/Ubuntu-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Bold";
-  src: local("Ubuntu-Bold"), url("../fonts/Ubuntu-Bold.ttf") format("truetype");
-}
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
-  font-family: "Regular" !important;
+  font-family: "Kanit", sans-serif !important;
 }
 
 body,
@@ -29,5 +11,20 @@ html,
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #dcdfe5;
+
+  background: linear-gradient(58deg, #66bcee, #d4d4d4);
+  background-size: 120% 120%;
+  animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

@@ -1,14 +1,14 @@
-export const HEADER_LOGIN = "Se connecter";
-export const SUBMIT_LOGIN = "Se connecter";
-export const QUESTION_LOGIN = "Nouvel utilisateur ?";
-export const BUTTON_LOGIN = "Créer un compte.";
-export const ERROR_LOGIN = "Nom d'utilisateur ou mot de passe incorrect.";
+export const HEADER_LOGIN = "Sign in";
+export const SUBMIT_LOGIN = "Sign in";
+export const QUESTION_LOGIN = "New to Shifumi-React ?";
+export const BUTTON_LOGIN = "Create an account.";
+export const ERROR_LOGIN = "Incorrect username or password.";
 
-export const HEADER_REGISTER = "S'inscrire";
-export const SUBMIT_REGISTER = "Créer un compte";
-export const QUESTION_REGISTER = "Déjà inscrit ?";
-export const BUTTON_REGISTER = "Se connecter.";
-export const ERROR_REGISTER = "Nom d'utilisateur déjà utilisé.";
+export const HEADER_REGISTER = "Sign up";
+export const SUBMIT_REGISTER = "Create new compte";
+export const QUESTION_REGISTER = "Already have an account ?";
+export const BUTTON_REGISTER = "Sign in.";
+export const ERROR_REGISTER = "Username is already taken.";
 
 export const CONSTANTS_LOGIN = [
   HEADER_LOGIN,

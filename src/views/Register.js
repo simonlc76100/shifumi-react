@@ -5,7 +5,7 @@ import { CONSTANTS_REGISTER } from "../constants/Constants";
 import { Navigate } from "react-router-dom";
 
 export default function Register({ formData, setFormData }) {
-  const [islogged, setIslogged] = useState(false);
+  const [islogged, setIsLogged] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState(false);
 
@@ -22,20 +22,23 @@ export default function Register({ formData, setFormData }) {
       }),
     });
 
-    if (res_reg.status === 201) {
-      const data_reg = await res_reg.json();
-      console.log(data_reg);
-      setIsRegistered(true);
-    } else {
-      console.log("error");
-      setError(true);
+    switch (res_reg.status) {
+      case 201:
+        const data_reg = await res_reg.json();
+        console.log(data_reg);
+        setIsRegistered(true);
+        break;
+      default:
+        console.log("error");
+        setError(true);
+        break;
     }
   }
 
   useEffect(() => {
     if (isRegistered && formData.username && formData.password) {
       async function login() {
-        const res_log = await fetch("http://fauques.freeboxos.fr:3000/login", {
+        const response = await fetch("http://fauques.freeboxos.fr:3000/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -46,15 +49,20 @@ export default function Register({ formData, setFormData }) {
           }),
         });
 
-        if (res_log.status === 200) {
-          const data_log = await res_log.json();
-          console.log(data_log);
-          localStorage.setItem("token", data_log.token);
-          localStorage.setItem("username", formData.username);
-          setIslogged(true);
-        } else {
-          console.log("error");
-          setError(true);
+        switch (response.status) {
+          case 200:
+            const data = await response.json();
+            console.log(data);
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("username", formData.username);
+
+            setIsLogged(true);
+            break;
+          default:
+            console.log("error");
+            setError(true);
+            break;
         }
       }
       login();
@@ -64,7 +72,7 @@ export default function Register({ formData, setFormData }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIslogged(true);
+      setIsLogged(true);
     }
   }, []);
 
