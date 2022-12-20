@@ -1,70 +1,267 @@
-# Getting Started with Create React App
+# Objectifs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Créer une application permettant de jouer à Chi Fou Mi. Le jeu se joue à deux joueurs en
+ligne. Une partie se joue en trois manches.
 
-## Available Scripts
+# Authentification
 
-In the project directory, you can run:
+L'authentification se fait par token JWT
 
-### `npm start`
+# Endpoints
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Base de l'URL: à voir en cours
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Ce qui est demandé
 
-### `npm test`
+```
+Une page se permettant de se connecter
+Une page permettant de lister les parties et de créer une partie
+Une page permettant d'afficher une partie et de pouvoir jouer
+Avoir un semblant d'UI (utilisation de packages possibles, ex: mui, tailwind, ...)
+Avoir un découpage de composants efficace
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Bârème
 
-### `npm run build`
+```
+11 pts: Fonctionnel
+3 pts: UI
+4 pts: Architecture logicielle (hiérarchie des fichiers, découpage des composants)
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Bonus
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+Gestion optimisée du routing (+ 1 pts)
+ex: Rediriger vers la liste des matchs si on est connecté
+ex: Avoir un bouton de déconnexion qui redirige vers la page de connexion
+...
+Utilisation du système de notification (SSE) pour les événements (voir plus bas pour
+les différents types d'événements) (+ 3 pts)
+Ajout d'animations (+ 1 pts)
+ex: Révéler les coups des joueurs via une carte qui se retourne
+... (à faire valider)
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Rendu
 
-### `npm run eject`
+Le rendu doit se faire via un lien Github. Les différents membres de l'équipe doivent chacun
+travailler sur le projet donc s'il n'y a pas de commits l'étudiant aura 00.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## POST /register
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+Requête
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### {
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+"username": "monpseudo",
+"password": "mypassword"
+}
+```
 
-## Learn More
+```
+Réponse
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+// Code: 201
+{
+"_id": "IDUSER",
+"username":"token",
+"password":"password"
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## POST /login
 
-### Code Splitting
+```
+Requête
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### {
 
-### Analyzing the Bundle Size
+```
+"username": "monpseudo",
+"password": "mypassword"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+Réponse
+```
 
-### Making a Progressive Web App
+```
+// Code: 200
+{
+"token":"token"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## GET /matches
 
-### Advanced Configuration
+```
+Body
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+// Code: 200
+[
+{
+"user1": {
+"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
+"username": "player1",
+},
+"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","u
+"turns": [],
+"_id": "61979ce9ff4a0e83e02df260",
+}
+// ,...
+]
+```
 
-### Deployment
+## GET /matches/:id
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+Body
+```
 
-### `npm run build` fails to minify
+```
+// Code: 200
+{
+"user1": {
+"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
+"username": "player1",
+},
+"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","use
+"turns": [],
+"_id": "61979ce9ff4a0e83e02df260",
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## POST /matches
+
+Si un match est en attente (pas de user 2 ), on le modifie pour ajouter le user 2 user 2
+
+```
+Body Aucun
+Réponse
+```
+
+```
+// si pas de match en attente pour l'utilisateur courant
+// Code: 201
+{
+"user1": {
+"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
+"username": "player1",
+},
+"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","use
+"turns": [],
+"_id": "61979ce9ff4a0e83e02df260",
+}
+// sinon
+// Code: 400
+{
+"match": "You already have a match"
+}
+```
+
+## POST /matches/:id/turns/:idTurn
+
+```
+Body
+```
+
+### {
+
+```
+"move": "rock" // "rock", "paper", "scissors"
+}
+```
+
+```
+Réponse
+Erreur 400
+si idTurn est invalide { turn: "not found" }
+si idTurn est déjà terminé { turn: "not last" }
+si mmatch est déjà terminé { match: "Match already finished" }
+si le joueur a déjà joué le tour et attend l'adversaire { user: "move
+already given" }
+Code 202 : Si tout se passe bien
+```
+
+# Notifications du match
+
+A chaque événement lié à un match, une notification est envoyée via le protocole Server-
+Sent Events (SSE).
+
+Le endpoint pour souscrire aux notifications est /matches/:id/subscribe
+
+Le endpoint est lui aussi protégé par un token JWT
+
+## Event PLAYER_JOIN
+
+### {
+
+```
+"type": "PLAYER1_JOIN", // "PLAYER1_JOIN"|"PLAYER2_JOIN"
+"matchId": "id_match",
+"payload": {
+"user": "player1_username"
+}
+}
+```
+
+## Event NEW_TURN
+
+### {
+
+```
+"type": "NEW_TURN",
+"matchId": "id_match",
+"payload": {
+"turnId": 1 ,
+}
+}
+```
+
+## Event TURN_ENDED
+
+### {
+
+```
+"type": "TURN_ENDED",
+"matchId": "id_match",
+"payload": {
+"newTurnId": 2 ,
+"winner": "winner_username", // "winner_username"|"draw",
+}
+}
+```
+
+## Event PLAYER_MOVED
+
+### {
+
+```
+"type": "PLAYER1_MOVED", // "PLAYER1_MOVED"|"PLAYER2_MOVED"
+"matchId": "id_match",
+"payload": {
+"turn": 1 ,
+},
+}
+```
+
+## Event MATCH_ENDED
+
+### {
+
+"type": "MATCH_ENDED",
+"matchId": "id_match",
+"payload": {
+"winner": "winner_username", // "winner_username"|"draw",
+},
+}
