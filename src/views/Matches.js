@@ -1,17 +1,20 @@
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import MatchesList from "../components/MatchesList";
-import "../assets/styles/Matches.css";
 
-import { useState, useCallback } from "react";
-import { Center } from "@chakra-ui/react";
+import { useState, useEffect, useCallback } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { Box } from "@chakra-ui/react";
 
 export default function Matches() {
   const [matches, setMatches] = useState([]);
-  const [title, setTitle] = useState("");
-  const [errorCreate, setErrorCreate] = useState(false);
+
+  const [match, setMatch] = useState({});
+
+  const [errorGet, setErrorGet] = useState(false);
 
   const getMatches = useCallback(async () => {
-    console.log("getMatches");
     const response = await fetch("http://fauques.freeboxos.fr:3000/matches", {
       method: "GET",
       headers: {
@@ -26,9 +29,7 @@ export default function Matches() {
       console.log(data);
 
       if (data.length === 0) {
-        setTitle("You have no games yet");
-      } else {
-        setTitle("Your games");
+        setErrorGet(true);
       }
     }
   }, []);
@@ -42,14 +43,15 @@ export default function Matches() {
       },
     });
 
+    const data = await res.json();
+
     switch (res.status) {
       case 201:
-        console.log(await res.json());
-        getMatches();
+        setMatch(data);
+        console.log(data);
         break;
       case 400:
         console.log(await res.json());
-        setErrorCreate(true);
         break;
       default:
         console.log("error");
@@ -57,19 +59,34 @@ export default function Matches() {
     }
   }
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (match._id) {
+      navigate(`/matches/${match._id}`);
+    }
+  }, [match, navigate]);
+
   return (
-    <div className="matches-view">
-      <Navbar />
-      <Center>
+    <Box className="matches-view" width="inherit" height="inherit">
+      <Header />
+      <Box
+        className="matches-view-minus-header"
+        height="calc(100vh - 64px)"
+        position="absolute"
+        top="64px"
+        width="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <MatchesList
           matches={matches}
-          title={title}
           getMatches={getMatches}
-          errorCreate={errorCreate}
-          setErrorCreate={setErrorCreate}
+          errorGet={errorGet}
           createMatch={createMatch}
         />
-      </Center>
-    </div>
+      </Box>
+    </Box>
   );
 }

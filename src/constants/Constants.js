@@ -5,7 +5,7 @@ export const BUTTON_LOGIN = "Create an account.";
 export const ERROR_LOGIN = "Incorrect username or password.";
 
 export const HEADER_REGISTER = "Sign up";
-export const SUBMIT_REGISTER = "Create new compte";
+export const SUBMIT_REGISTER = "Create an account";
 export const QUESTION_REGISTER = "Already have an account ?";
 export const BUTTON_REGISTER = "Sign in.";
 export const ERROR_REGISTER = "Username is already taken.";

@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import Form from "../components/Form";
 import { CONSTANTS_LOGIN } from "../constants/Constants";
 
-import { Navigate } from "react-router-dom";
+import { Center } from "@chakra-ui/react";
 
 export default function Login({ formData, setFormData }) {
-  const [isLogged, setIsLogged] = useState(false);
-
   const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
 
   async function login(e) {
     e.preventDefault();
@@ -28,9 +31,7 @@ export default function Login({ formData, setFormData }) {
         console.log(data);
 
         localStorage.setItem("token", data.token);
-        localStorage.setItem("username", formData.username);
-
-        setIsLogged(true);
+        navigate("/matches");
         break;
       default:
         console.log("error");
@@ -41,33 +42,21 @@ export default function Login({ formData, setFormData }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLogged(true);
+      navigate("/matches");
     }
-  }, []);
+  }, [navigate]);
 
   return (
-    <div
-      className="login"
-      style={{
-        height: "inherit",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {isLogged ? (
-        <Navigate to="/" />
-      ) : (
-        <Form
-          error={error}
-          setError={setError}
-          submitFunction={login}
-          formData={formData}
-          setFormData={setFormData}
-          CONSTANTS={CONSTANTS_LOGIN}
-          route="/register"
-        />
-      )}
-    </div>
+    <Center className="login-view" height="inherit" width="inherit">
+      <Form
+        error={error}
+        setError={setError}
+        submitFunction={login}
+        formData={formData}
+        setFormData={setFormData}
+        CONSTANTS={CONSTANTS_LOGIN}
+        route="/register"
+      />
+    </Center>
   );
 }

@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import Form from "../components/Form";
 import { CONSTANTS_REGISTER } from "../constants/Constants";
 
-import { Navigate } from "react-router-dom";
+import { Center } from "@chakra-ui/react";
 
 export default function Register({ formData, setFormData }) {
-  const [islogged, setIsLogged] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
 
   async function register(e) {
     e.preventDefault();
@@ -55,9 +59,7 @@ export default function Register({ formData, setFormData }) {
             console.log(data);
 
             localStorage.setItem("token", data.token);
-            localStorage.setItem("username", formData.username);
-
-            setIsLogged(true);
+            navigate("/matches");
             break;
           default:
             console.log("error");
@@ -67,38 +69,26 @@ export default function Register({ formData, setFormData }) {
       }
       login();
     }
-  }, [isRegistered, formData.username, formData.password]);
+  }, [isRegistered, formData.username, formData.password, navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLogged(true);
+      navigate("/matches");
     }
-  }, []);
+  }, [navigate]);
 
   return (
-    <div
-      className="register"
-      style={{
-        height: "inherit",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {islogged ? (
-        <Navigate to="/" />
-      ) : (
-        <Form
-          error={error}
-          setError={setError}
-          formData={formData}
-          setFormData={setFormData}
-          submitFunction={register}
-          CONSTANTS={CONSTANTS_REGISTER}
-          route="/login"
-        />
-      )}
-    </div>
+    <Center className="login-view" height="inherit" width="inherit">
+      <Form
+        error={error}
+        setError={setError}
+        formData={formData}
+        setFormData={setFormData}
+        submitFunction={register}
+        CONSTANTS={CONSTANTS_REGISTER}
+        route="/login"
+      />
+    </Center>
   );
 }
