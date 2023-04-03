@@ -17,11 +17,11 @@ Base de l'URL: à voir en cours
 Une page se permettant de se connecter
 Une page permettant de lister les parties et de créer une partie
 Une page permettant d'afficher une partie et de pouvoir jouer
-Avoir un semblant d'UI (utilisation de packages possibles, ex: mui, tailwind, ...)
+Avoir un semblant d'UI (utilisation de packages possible, ex: mui, tailwind, ...)
 Avoir un découpage de composants efficace
 ```
 
-## Bârème
+## Barème
 
 ```
 11 pts: Fonctionnel
