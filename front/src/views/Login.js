@@ -14,7 +14,7 @@ export default function Login({ formData, setFormData }) {
 
   async function login(e) {
     e.preventDefault();
-    const response = await fetch("http://fauques.freeboxos.fr:3000/login", {
+    const response = await fetch("http://server:5000:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -15,7 +15,7 @@ export default function Register({ formData, setFormData }) {
 
   async function register(e) {
     e.preventDefault();
-    const res_reg = await fetch("http://fauques.freeboxos.fr:3000/register", {
+    const res_reg = await fetch("http://server:5000:3000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function Register({ formData, setFormData }) {
   useEffect(() => {
     if (isRegistered && formData.username && formData.password) {
       async function login() {
-        const response = await fetch("http://fauques.freeboxos.fr:3000/login", {
+        const response = await fetch("http://server:5000:3000/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
