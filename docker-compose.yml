@@ -8,7 +8,7 @@ services:
     volumes:
       - mongodb:/data/db
 
-  nodejs:
+  server:
     container_name: nodejs
     build:
       context: ./back
@@ -17,9 +17,18 @@ services:
       - "5000:5000"
     env_file:
       - .env
-
     depends_on:
       - mongodb
+
+  client:
+    container_name: react
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nodejs
 
 volumes:
   mongodb: {}
