@@ -7,8 +7,8 @@ const cors = require("cors");
 app.use(cors());
 
 app.use(express.json());
-app.use("/user", userRouter);
-app.use("/match", matchRouter);
+app.use("/", userRouter);
+app.use("/", matchRouter);
 
 app.listen(5000, () => {
   console.log("Server started on port 5000");
