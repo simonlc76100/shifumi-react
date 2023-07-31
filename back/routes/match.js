@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { checkTurnWinner, checkMatchWinner } = require("./lib/chifoumi");
 const NotificationCenter = require("./lib/notificationCenter");
-const Match = require("./models/match");
+const Match = require("../models/match");
 const turnValidator = require("./middlewares/turnValidator");
 
 router.use(express.json());
