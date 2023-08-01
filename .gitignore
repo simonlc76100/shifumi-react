@@ -1,4 +1,2 @@
-# SERVER
+.env
 /back/req.http
-
-# CLIENT
