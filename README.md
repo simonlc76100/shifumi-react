@@ -75,11 +75,11 @@ The client should now be running on `http://localhost:3000`.
 
 Notifications types:
 
-- PLAYER_JOIN: A player has joined a match.
-- NEW_TURN: A new round has started.
-- TURN_ENDED: A round has ended and the winner has been determined.
-- PLAYER_MOVED: A player has made a move.
-- MATCH_ENDED: The match has ended and the overall winner has been determined.
+- `PLAYER_JOIN:` A player has joined a match.
+- `NEW_TURN:` A new round has started.
+- `TURN_ENDED:` A round has ended and the winner has been determined.
+- `PLAYER_MOVED:` A player has made a move.
+- `MATCH_ENDED:` The match has ended and the overall winner has been determined.
 
 ## Bonus Features
 
