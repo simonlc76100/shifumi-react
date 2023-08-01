@@ -14,7 +14,7 @@ export default function Login({ formData, setFormData }) {
 
   async function login(e) {
     e.preventDefault();
-    const response = await fetch("http://server:5000/login", {
+    const response = await fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
