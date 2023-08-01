@@ -28,7 +28,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-You need Node.js and npm installed on your machine. To install Node.js and npm, you can download them [here](https://nodejs.org/en/download/).
+You need Git, Node.js and Docker installed on your machine.
 
 ### Installing
 
@@ -37,10 +37,9 @@ You need Node.js and npm installed on your machine. To install Node.js and npm, 
     git clone <repository-url>
     ```
 
-2. Navigate to the project folder and install the necessary dependencies.
+2. Navigate to the project folder.
     ```bash
-    cd rock-paper-scissors-online
-    npm install
+    cd shifumi-react
     ```
 
 3. Rename `.env.example` to `.env`.
@@ -50,15 +49,15 @@ You need Node.js and npm installed on your machine. To install Node.js and npm, 
 
 4. Open `.env` in your favorite text editor and fill in the environment variables.
 
-   - `MONGODB_URI`: This is the URL of your MongoDB database. It should be in the format `mongodb://<host>:<port>`. If you are running a local instance of MongoDB, this would usually be `mongodb://localhost:27017`.
+   - `DB_HOSTNAME`: This is the hostname of your database. You can use any name you like, the URL will be constructed based on this value.
 
    - `DB_NAME`: This is the name of your database. You can use any name you like.
 
    - `JWT_SECRET`: This is the secret key used to sign the JSON Web Tokens for authentication. This should be a long, random string. You can generate one by running `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` in your terminal.
 
-5. Run npm start to start the application.
+5. Run docker-compose up at the root of the project to start the application.
     ```bash
-    npm start
+    docker-compose up
     ```
 
 The application should now be running on `http://localhost:3000`.
