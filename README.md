@@ -1,267 +1,89 @@
-# Objectifs
+# Rock, Paper, Scissors Online
 
-Créer une application permettant de jouer à Chi Fou Mi. Le jeu se joue à deux joueurs en
-ligne. Une partie se joue en trois manches.
+This application allows you to play Rock Paper Scissors online. It supports two players per game, and each game is played over three rounds.
 
-# Authentification
+## Features
 
-L'authentification se fait par token JWT
+### User Registration and Authentication
+- Users can register themselves with a username and a password.
+- Users can authenticate themselves to access the application.
 
-# Endpoints
+### Game Management
+- Users can create a new game.
+- Users can join an existing game that is waiting for a second player.
+- Users can view the details of a game including the players, their moves, and the current state of the game.
 
-Base de l'URL: à voir en cours
+### Gameplay
+- Each game is played over three rounds.
+- In each round, the players select their move (rock, paper, or scissors).
+- The winner of the round is determined according to the standard rules of Rock Paper Scissors.
 
-# Ce qui est demandé
+### Real-time Notifications
+- Application uses the Server-Sent Events (SSE) protocol for real-time notifications.
+- Users can subscribe to these notifications using the /matches/:id/subscribe endpoint.
 
-```
-Une page se permettant de se connecter
-Une page permettant de lister les parties et de créer une partie
-Une page permettant d'afficher une partie et de pouvoir jouer
-Avoir un semblant d'UI (utilisation de packages possible, ex: mui, tailwind, ...)
-Avoir un découpage de composants efficace
-```
+## Getting Started
 
-## Barème
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-```
-11 pts: Fonctionnel
-3 pts: UI
-4 pts: Architecture logicielle (hiérarchie des fichiers, découpage des composants)
-```
+### Prerequisites
 
-# Bonus
+You need Node.js and npm installed on your machine. To install Node.js and npm, you can download them [here](https://nodejs.org/en/download/).
 
-```
-Gestion optimisée du routing (+ 1 pts)
-ex: Rediriger vers la liste des matchs si on est connecté
-ex: Avoir un bouton de déconnexion qui redirige vers la page de connexion
-...
-Utilisation du système de notification (SSE) pour les événements (voir plus bas pour
-les différents types d'événements) (+ 3 pts)
-Ajout d'animations (+ 1 pts)
-ex: Révéler les coups des joueurs via une carte qui se retourne
-... (à faire valider)
-```
+### Installing
 
-# Rendu
+1. Clone the repository to your local machine.
+    ```bash
+    git clone <repository-url>
+    ```
 
-Le rendu doit se faire via un lien Github. Les différents membres de l'équipe doivent chacun
-travailler sur le projet donc s'il n'y a pas de commits l'étudiant aura 00.
+2. Navigate to the project folder and install the necessary dependencies.
+    ```bash
+    cd rock-paper-scissors-online
+    npm install
+    ```
 
-## POST /register
+3. Rename `.env.example` to `.env`.
+    ```bash
+    mv .env.example .env
+    ```
 
-```
-Requête
-```
+4. Open `.env` in your favorite text editor and fill in the environment variables.
 
-### {
+   - `MONGODB_URI`: This is the URL of your MongoDB database. It should be in the format `mongodb://<host>:<port>`. If you are running a local instance of MongoDB, this would usually be `mongodb://localhost:27017`.
 
-```
-"username": "monpseudo",
-"password": "mypassword"
-}
-```
+   - `DB_NAME`: This is the name of your database. You can use any name you like.
 
-```
-Réponse
-```
+   - `JWT_SECRET`: This is the secret key used to sign the JSON Web Tokens for authentication. This should be a long, random string. You can generate one by running `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` in your terminal.
 
-```
-// Code: 201
-{
-"_id": "IDUSER",
-"username":"token",
-"password":"password"
-}
-```
+5. Run npm start to start the application.
+    ```bash
+    npm start
+    ```
 
-## POST /login
+The application should now be running on `http://localhost:3000`.
 
-```
-Requête
-```
+## Endpoints
 
-### {
+- POST /register: Register a new user.
+- POST /login: Authenticate a user.
+- GET /matches: Get a list of all matches.
+- GET /matches/:id: Get the details of a specific match.
+- POST /matches: Create a new match or join an existing match that is waiting for a second player.
+- POST /matches/:id/turns/:idTurn: Submit a move for the current round in a match.
 
-```
-"username": "monpseudo",
-"password": "mypassword"
-}
-```
+## Notifications
 
-```
-Réponse
-```
+Notifications types:
 
-```
-// Code: 200
-{
-"token":"token"
-}
-```
+- PLAYER_JOIN: A player has joined a match.
+- NEW_TURN: A new round has started.
+- TURN_ENDED: A round has ended and the winner has been determined.
+- PLAYER_MOVED: A player has made a move.
+- MATCH_ENDED: The match has ended and the overall winner has been determined.
 
-## GET /matches
+## Bonus Features
 
-```
-Body
-```
-
-```
-// Code: 200
-[
-{
-"user1": {
-"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
-"username": "player1",
-},
-"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","u
-"turns": [],
-"_id": "61979ce9ff4a0e83e02df260",
-}
-// ,...
-]
-```
-
-## GET /matches/:id
-
-```
-Body
-```
-
-```
-// Code: 200
-{
-"user1": {
-"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
-"username": "player1",
-},
-"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","use
-"turns": [],
-"_id": "61979ce9ff4a0e83e02df260",
-}
-```
-
-## POST /matches
-
-Si un match est en attente (pas de user 2 ), on le modifie pour ajouter le user 2 user 2
-
-```
-Body Aucun
-Réponse
-```
-
-```
-// si pas de match en attente pour l'utilisateur courant
-// Code: 201
-{
-"user1": {
-"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c0",
-"username": "player1",
-},
-"user2": null, //{"_id": "24aefbbb-8def-4e2c-b19a-929ff55020c1","use
-"turns": [],
-"_id": "61979ce9ff4a0e83e02df260",
-}
-// sinon
-// Code: 400
-{
-"match": "You already have a match"
-}
-```
-
-## POST /matches/:id/turns/:idTurn
-
-```
-Body
-```
-
-### {
-
-```
-"move": "rock" // "rock", "paper", "scissors"
-}
-```
-
-```
-Réponse
-Erreur 400
-si idTurn est invalide { turn: "not found" }
-si idTurn est déjà terminé { turn: "not last" }
-si mmatch est déjà terminé { match: "Match already finished" }
-si le joueur a déjà joué le tour et attend l'adversaire { user: "move
-already given" }
-Code 202 : Si tout se passe bien
-```
-
-# Notifications du match
-
-A chaque événement lié à un match, une notification est envoyée via le protocole Server-
-Sent Events (SSE).
-
-Le endpoint pour souscrire aux notifications est /matches/:id/subscribe
-
-Le endpoint est lui aussi protégé par un token JWT
-
-## Event PLAYER_JOIN
-
-### {
-
-```
-"type": "PLAYER1_JOIN", // "PLAYER1_JOIN"|"PLAYER2_JOIN"
-"matchId": "id_match",
-"payload": {
-"user": "player1_username"
-}
-}
-```
-
-## Event NEW_TURN
-
-### {
-
-```
-"type": "NEW_TURN",
-"matchId": "id_match",
-"payload": {
-"turnId": 1 ,
-}
-}
-```
-
-## Event TURN_ENDED
-
-### {
-
-```
-"type": "TURN_ENDED",
-"matchId": "id_match",
-"payload": {
-"newTurnId": 2 ,
-"winner": "winner_username", // "winner_username"|"draw",
-}
-}
-```
-
-## Event PLAYER_MOVED
-
-### {
-
-```
-"type": "PLAYER1_MOVED", // "PLAYER1_MOVED"|"PLAYER2_MOVED"
-"matchId": "id_match",
-"payload": {
-"turn": 1 ,
-},
-}
-```
-
-## Event MATCH_ENDED
-
-### {
-
-"type": "MATCH_ENDED",
-"matchId": "id_match",
-"payload": {
-"winner": "winner_username", // "winner_username"|"draw",
-},
-}
+- Optimized routing: Redirect to the list of matches if the user is already logged in.
+- Use of notification system for game events.
+- Addition of animations to reveal the players' moves.
