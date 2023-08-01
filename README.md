@@ -64,12 +64,12 @@ The client should now be running on `http://localhost:3000`.
 
 ## Endpoints
 
-- POST /register: Register a new user.
-- POST /login: Authenticate a user.
-- GET /matches: Get a list of all matches.
+- POST `/register:` Register a new user.
+- POST `/login:` Authenticate a user.
+- GET `/matches:` Get a list of all matches.
 - GET `/matches/:id:` Get the details of a specific match.
-- POST /matches: Create a new match or join an existing match that is waiting for a second player.
-- POST /matches/:id/turns/:idTurn: Submit a move for the current round in a match.
+- POST `/matches:` Create a new match or join an existing match that is waiting for a second player.
+- POST `/matches/:id/turns/:idTurn:` Submit a move for the current round in a match.
 
 ## Notifications
 
