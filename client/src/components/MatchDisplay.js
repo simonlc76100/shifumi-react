@@ -30,13 +30,7 @@ import DotPulse from "./DotPulse";
 
 import { MdCelebration } from "react-icons/md";
 
-import { FaHandshake } from "react-icons/fa";
-
-import { FaHandRock } from "react-icons/fa";
-
-import { FaHandPaper } from "react-icons/fa";
-
-import { FaHandScissors } from "react-icons/fa";
+import { FaHandshake, FaHandRock, FaHandPaper, FaHandScissors} from "react-icons/fa";
 
 import { BsArrowLeftSquareFill } from "react-icons/bs";
 
