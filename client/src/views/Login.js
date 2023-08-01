@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
+import { auth } from "../api/auth";
 import Form from "../components/Form";
 import { CONSTANTS_LOGIN } from "../constants/Constants";
 import { Center } from "@chakra-ui/react";
@@ -13,7 +13,7 @@ export default function Login({ formData, setFormData }) {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const data = await login(formData.username, formData.password);
+      const data = await auth(formData, "login");
       localStorage.setItem("token", data.token);
       navigate("/matches");
     } catch (error) {

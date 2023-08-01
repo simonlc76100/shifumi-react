@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
-
+import { auth } from "../api/auth";
 import Form from "../components/Form";
 import { CONSTANTS_REGISTER } from "../constants/Constants";
-
 import { Center } from "@chakra-ui/react";
 
 export default function Register({ formData, setFormData }) {
@@ -13,63 +11,32 @@ export default function Register({ formData, setFormData }) {
 
   const navigate = useNavigate();
 
-  async function register(e) {
+  async function handleRegister(e) {
     e.preventDefault();
-    const res_reg = await fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
-    });
-
-    switch (res_reg.status) {
-      case 201:
-        const data_reg = await res_reg.json();
-        console.log(data_reg);
-        setIsRegistered(true);
-        break;
-      default:
-        console.log("error");
-        setError(true);
-        break;
+    try {
+      await auth(formData, "register");
+      setIsRegistered(true);
+    } catch (error) {
+      console.log("register failed: ", error);
+      setError(true);
     }
   }
 
   useEffect(() => {
     if (isRegistered && formData.username && formData.password) {
-      async function login() {
-        const response = await fetch("http://localhost:5000/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: formData.username,
-            password: formData.password,
-          }),
-        });
-
-        switch (response.status) {
-          case 200:
-            const data = await response.json();
-            console.log(data);
-
-            localStorage.setItem("token", data.token);
-            navigate("/matches");
-            break;
-          default:
-            console.log("error");
-            setError(true);
-            break;
+      async function handleLogin() {
+        try {
+          const data = await auth(formData, "login");
+          localStorage.setItem("token", data.token);
+          navigate("/matches");
+        } catch (error) {
+          console.log("login failed: ", error);
+          setError(true);
         }
       }
-      login();
+      handleLogin();
     }
-  }, [isRegistered, formData.username, formData.password, navigate]);
+  }, [isRegistered, formData, navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -85,7 +52,7 @@ export default function Register({ formData, setFormData }) {
         setError={setError}
         formData={formData}
         setFormData={setFormData}
-        submitFunction={register}
+        submitFunction={handleRegister}
         CONSTANTS={CONSTANTS_REGISTER}
         route="/login"
       />
