@@ -15,7 +15,7 @@ export default function Matches() {
   const [errorGet, setErrorGet] = useState(false);
 
   const getMatches = useCallback(async () => {
-    const response = await fetch("http://server:5000:3000/matches", {
+    const response = await fetch("http://server:5000/matches", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export default function Matches() {
   }, []);
 
   async function createMatch() {
-    const res = await fetch("http://server:5000:3000/matches", {
+    const res = await fetch("http://server:5000/matches", {
       method: "POST",
       headers: {
         "Content-Type": "application",

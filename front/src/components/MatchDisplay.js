@@ -72,7 +72,7 @@ export default function MatchDisplay({ idParam }) {
   const [matchEnded, setMatchEnded] = useState({});
 
   const getMatch = useCallback(async () => {
-    const response = await fetch(`http://server:5000:3000/matches/${idParam}`, {
+    const response = await fetch(`http://server:5000/matches/${idParam}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function MatchDisplay({ idParam }) {
 
   useEffect(() => {
     const eventSource = new EventSourcePolyfill(
-      `http://server:5000:3000/matches/${idParam}/subscribe`,
+      `http://server:5000/matches/${idParam}/subscribe`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -271,7 +271,7 @@ export default function MatchDisplay({ idParam }) {
   async function handleMove(move) {
     console.log(move);
     const response = await fetch(
-      `http://server:5000:3000/matches/${match._id}/turns/${idTurn}`,
+      `http://server:5000/matches/${match._id}/turns/${idTurn}`,
       {
         method: "POST",
         headers: {
