@@ -49,7 +49,7 @@ You need Git, Node.js and Docker installed on your machine.
 
 4. Open `.env` in your favorite text editor and fill in the environment variables.
 
-   - `DB_HOSTNAME`: This is the hostname of your database. You can use any name you like, the URL will be constructed based on this value.
+   - `DB_HOSTNAME`: This is the hostname of your database. You can use any name you like, the connection string URI will be constructed based on this value.
 
    - `DB_NAME`: This is the name of your database. You can use any name you like.
 
@@ -60,14 +60,14 @@ You need Git, Node.js and Docker installed on your machine.
     docker-compose up
     ```
 
-The application should now be running on `http://localhost:3000`.
+The client should now be running on `http://localhost:3000`.
 
 ## Endpoints
 
 - POST /register: Register a new user.
 - POST /login: Authenticate a user.
 - GET /matches: Get a list of all matches.
-- GET /matches/:id: Get the details of a specific match.
+- GET `/matches/:id:` Get the details of a specific match.
 - POST /matches: Create a new match or join an existing match that is waiting for a second player.
 - POST /matches/:id/turns/:idTurn: Submit a move for the current round in a match.
 
