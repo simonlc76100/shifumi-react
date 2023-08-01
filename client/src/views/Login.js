@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
-
+import { login } from "../api/auth";
 import Form from "../components/Form";
 import { CONSTANTS_LOGIN } from "../constants/Constants";
-
 import { Center } from "@chakra-ui/react";
 
 export default function Login({ formData, setFormData }) {
@@ -12,33 +10,18 @@ export default function Login({ formData, setFormData }) {
 
   const navigate = useNavigate();
 
-  async function login(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
-    });
-
-    switch (response.status) {
-      case 200:
-        const data = await response.json();
-        console.log(data);
-
-        localStorage.setItem("token", data.token);
-        navigate("/matches");
-        break;
-      default:
-        console.log("error");
-        setError(true);
-        break;
+    try {
+      const data = await login(formData.username, formData.password);
+      localStorage.setItem("token", data.token);
+      navigate("/matches");
+    } catch (error) {
+      console.log("login failed: ", error);
+      setError(true);
     }
   }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -51,7 +34,7 @@ export default function Login({ formData, setFormData }) {
       <Form
         error={error}
         setError={setError}
-        submitFunction={login}
+        submitFunction={handleLogin}
         formData={formData}
         setFormData={setFormData}
         CONSTANTS={CONSTANTS_LOGIN}
