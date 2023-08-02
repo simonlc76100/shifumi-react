@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../api/auth";
+import { auth } from "../utils/api/auth";
 import Form from "../components/Form";
 import { CONSTANTS_REGISTER } from "../constants/Constants";
 import { Center } from "@chakra-ui/react";
