@@ -4,7 +4,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 
 import { FaPowerOff } from "react-icons/fa";
 
-import { parseJwt } from "../utils/parseJwt";
+import { parseJwt } from "../utils/functions/parseJwt";
 
 import { useState, useEffect } from "react";
 

@@ -4,7 +4,7 @@ import Matches from "./views/Matches";
 import Match from "./views/Match";
 
 import { Route, Routes, Navigate } from "react-router-dom";
-import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./utils/functions/PrivateRoute";
 import NotFound from "./views/NotFound";
 
 import { useState } from "react";

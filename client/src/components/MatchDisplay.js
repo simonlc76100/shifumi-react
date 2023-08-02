@@ -6,7 +6,7 @@ import { Button, Container, Heading } from "@chakra-ui/react";
 
 import { EventSourcePolyfill } from "event-source-polyfill";
 
-import { parseJwt } from "../utils/parseJwt";
+import { parseJwt } from "../utils/functions/parseJwt";
 
 import {
   Center,
@@ -30,7 +30,12 @@ import DotPulse from "./DotPulse";
 
 import { MdCelebration } from "react-icons/md";
 
-import { FaHandshake, FaHandRock, FaHandPaper, FaHandScissors} from "react-icons/fa";
+import {
+  FaHandshake,
+  FaHandRock,
+  FaHandPaper,
+  FaHandScissors,
+} from "react-icons/fa";
 
 import { BsArrowLeftSquareFill } from "react-icons/bs";
 
@@ -419,14 +424,22 @@ export default function MatchDisplay({ idParam }) {
         border="1px solid #D8DEE4"
       >
         <CardBody>
-          <Text size="sm" fontSize="14px" fontWeight="500" letterSpacing="-0.5px">
+          <Text
+            size="sm"
+            fontSize="14px"
+            fontWeight="500"
+            letterSpacing="-0.5px"
+          >
             <Highlight
-              query={match.winner || match.winner === null ? "ENDED" : "IN PROGRESS"}
+              query={
+                match.winner || match.winner === null ? "ENDED" : "IN PROGRESS"
+              }
               styles={{
                 width: "90px",
                 backgroundColor:
                   match.winner || match.winner === null ? "#D2FFDE" : "#FFF4B6",
-                color: match.winner || match.winner === null ? "#2da44e" : "#D4A100",
+                color:
+                  match.winner || match.winner === null ? "#2da44e" : "#D4A100",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -564,7 +577,12 @@ export default function MatchDisplay({ idParam }) {
             alignItems="center"
             flexDirection="column"
           >
-            <Heading size="md" fontSize="20px" fontWeight="500" letterSpacing="-0.5px">
+            <Heading
+              size="md"
+              fontSize="20px"
+              fontWeight="500"
+              letterSpacing="-0.5px"
+            >
               {!match.user2
                 ? "WAITING FOR OPPONENT"
                 : match.winner || match.winner === null
