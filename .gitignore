@@ -1,2 +1,6 @@
 .env
-/back/req.http
+
+/server/node_modules
+/server/req.http
+
+/client/node_modules
